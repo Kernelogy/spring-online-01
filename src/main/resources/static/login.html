@@ -7,10 +7,28 @@
 </head>
 <body>
         <h1>Login Form</h1>
-    <form>
+    <form method="post">
         <input type="text" placeholder="Username" name="username" /> <br />
         <input type="password" placeholder="Password" name="password" /> <br />
         <input type="submit" value="Login" />
     </form>
 </body>
+<script>
+    function submitForm(){
+        // http://localhost:9000/demo/signin?username=mukil&password=12345
+        const username = document.getElementById("username").value
+        const password = document.getElementById("password").value
+        console.log(username + " " + password)
+        fetch("http://localhost:9000/demo/signin?username="+username+"&password="+password, 
+        {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
+
+        })
+            .then((res)=>{
+                console.log(res)
+            })
+    }
+</script>
 </html>
