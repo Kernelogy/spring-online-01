@@ -10,14 +10,15 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")  //using the table names in plural is a standar
 public class User{
-    @Id
-    @GeneratedValue
+    @Id             //Primary Key
+    @GeneratedValue //The value is auto generated 
     private int id;
     private String username;
     private String email;
     private String contact;
     private String password; 
     
+    public User(){}
     public User(int id, String username, 
                 String email, String contact, 
                 String password){

@@ -1,0 +1,45 @@
+ORM
+    Object Relational Mapping
+
+    Database
+        collections of tables
+    Table 
+        collection of row{set of data} tuple
+
+
+primary_key => it is unique value(mostly auto generated) to differentiate between different records(rows)
+id  username    email               contact     password
+1    mukilan     mukilan@gmail.com   987523723   12345       => tuple
+3    mukilan     mukilan@gmail.com   987523723   12345       => tuple
+
+
+ORM 
+    With the help of a POJO class we can map our data with database table
+
+1. POM dependency must be added for 
+    a) database dependency
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+    b) ORM dependency (JPA - Java Persistence API)
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+            </dependency>
+2. Update the database configuration in application.properties
+
+3. Map your POJO class with the DB table
+    @Entity
+    @Table
+
+After project run 
+
+1. USe the below url to check the db
+    http://localhost:[port]/h2-console
+
+Hibernate: create table users (id integer not null, contact varchar(255), email varchar(255), password varchar(255), username varchar(255), primary key (id))
+
+Model => is just a mapping of the table
+Repository => is the interface used for CURD operations
