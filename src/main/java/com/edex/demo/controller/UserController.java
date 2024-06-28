@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,30 +33,79 @@ public class UserController {
     }
     @GetMapping("/list")
     public ResponseEntity<?> list(){
-        List<User> users =  userRepo.findAll();
+        List<User> users =  userRepo.findAll();        
+        
+        /*
         List<UserResponseDto> dtos = new ArrayList<UserResponseDto>();
         for(User user : users){
             dtos.add(new UserResponseDto(user.getUsername(), user.getEmail(), user.getContact()));
         }
         return ResponseEntity.ok().body(dtos);
+        */
+        return ResponseEntity.ok().body(users);
     }
     @GetMapping("/list/{page}/{size}")
     public ResponseEntity<?> listByPage(@PathVariable int page, @PathVariable int size){
 
         List<User> users =  userRepo.findAll(PageRequest.of(page, size)).toList();
-        
         List<UserResponseDto> dtos = new ArrayList<UserResponseDto>();
         for(User user : users){
             dtos.add(new UserResponseDto(user.getUsername(), user.getEmail(), user.getContact()));
         }
         return ResponseEntity.ok().body(dtos);
+
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id){
+        // SELECT * FROM USERS WHERE ID = 1
+        User user = userRepo.findById(id).get();
+        return ResponseEntity.ok().body(user);
+    }
+    @GetMapping("/findByUsername/{username}")
+    public ResponseEntity<?> findByUsername(@PathVariable String username){
+        // SELECT * FROM USERS WHERE ID = 1
+        User user = userRepo.findByUsername(username);
+        UserResponseDto dto = new UserResponseDto(user.getUsername(), 
+                                                    user.getEmail(), 
+                                                    user.getPassword());
+        return ResponseEntity.ok().body(dto);
     }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserRequestDto dto){
-        User user = userRepo.findByUsernameAndPassword(dto.getUsername(), dto.getPassword());
-        if(user !=null){
+    public ResponseEntity<?> login(@RequestBody UserRequestDto user){
+        User entity = userRepo.findByUsernameAndPassword(
+                            user.getUsername(), user.getPassword()
+                            );
+        if(entity != null){
             return ResponseEntity.ok().body("Login Success");
         }
+
         return ResponseEntity.ok().body("Login Failed");
     }
+    @GetMapping("/listByEmailOrContact")
+    public ResponseEntity<?> findByEmailOrContact(){
+        List<User> users = userRepo.findByEmailOrContact("mukil@edex.com", "");
+        return ResponseEntity.ok().body(users);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable int id){
+        userRepo.deleteById(id);
+        return ResponseEntity.ok().body("Deleted Successfully");
+    }
+    @PostMapping("/update")
+    public ResponseEntity<?> updateById(@RequestBody User user){
+        //data without primary key = new record inserted
+        //data with primary key = existing record is updated
+        User entity = userRepo.save(user);
+        return ResponseEntity.ok().body(entity);
+    }
+
+    @GetMapping("/findByComplex/{username}")
+    public ResponseEntity<?> findByComplex(@PathVariable String username){
+        User user = userRepo.findBySomeComplexQuery(username);
+        return ResponseEntity.ok().body(user);
+    }
+
+
+
 }
