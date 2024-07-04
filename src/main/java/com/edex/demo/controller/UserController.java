@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edex.demo.dto.request.UserRequestDto;
 import com.edex.demo.dto.response.UserResponseDto;
+import com.edex.demo.model.Product;
 import com.edex.demo.model.User;
 import com.edex.demo.repo.UserRepo;
+import com.edex.demo.service.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/user")
@@ -26,8 +28,16 @@ public class UserController {
     @Autowired  //The object is initiated automiatically whenever it is required
     private UserRepo userRepo;
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @PostMapping("/insert")
     public ResponseEntity<User> insert(@RequestBody User user){
+        User entity = userRepo.save(user);    
+        return ResponseEntity.ok().body(entity);
+    }
+    @PostMapping("/insertWithAddress")
+    public ResponseEntity<User> insertWithAddress(@RequestBody User user){
         User entity = userRepo.save(user);
         return ResponseEntity.ok().body(entity);
     }
@@ -73,6 +83,7 @@ public class UserController {
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRequestDto user){
+        /*
         User entity = userRepo.findByUsernameAndPassword(
                             user.getUsername(), user.getPassword()
                             );
@@ -81,6 +92,10 @@ public class UserController {
         }
 
         return ResponseEntity.ok().body("Login Failed");
+        */
+
+        boolean status = userService.login(user.getUsername(), user.getPassword());
+        return ResponseEntity.ok().body(status);
     }
     @GetMapping("/listByEmailOrContact")
     public ResponseEntity<?> findByEmailOrContact(){

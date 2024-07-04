@@ -20,7 +20,4 @@ public class UserRequestDto {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    
-
 }

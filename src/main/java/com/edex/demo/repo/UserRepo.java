@@ -22,11 +22,11 @@ public interface UserRepo extends JpaRepository<User, Integer>{
     //SELECT * FROM USERS WHERE email = 'value' OR contact = 'value'
     List<User> findByEmailOrContact(String email, String contact);
 
-    //Positional Parameter
+    //Positional Parameter  ?position_of_parameter
     // @Query(value = "SELECT * FROM users WHERE username = ?1 AND ?2", nativeQuery = true)
     // User findBySomeComplexQuery(String username, String password);
 
-    //Named Parameter
+    //Named Parameter :name_of_parameter
     // @Query(value = "SELECT * FROM users WHERE username = :username AND :password", nativeQuery = true)
     // User findBySomeComplexQuery(String username, String password);
 
