@@ -33,6 +33,7 @@ public class UserController {
 
     @PostMapping("/insert")
     public ResponseEntity<User> insert(@RequestBody User user){
+        System.out.println("Controller working....");
         User entity = userRepo.save(user);    
         return ResponseEntity.ok().body(entity);
     }

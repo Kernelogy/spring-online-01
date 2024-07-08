@@ -20,9 +20,9 @@ public class User{
     private String email;
     private String contact;
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id" )
-    private Address address;
+    // @OneToOne(cascade = CascadeType.ALL)
+    // @JoinColumn(name = "address_id", referencedColumnName = "id" )
+    // private Address address;
     
     public User(){}
     public User(int id, String username, 
@@ -68,12 +68,12 @@ public class User{
     public void setUsername(String username) {
         this.username = username;
     }
-    public Address getAddress() {
-        return address;
-    }
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    // public Address getAddress() {
+    //     return address;
+    // }
+    // public void setAddress(Address address) {
+    //     this.address = address;
+    // }
 
 
 }

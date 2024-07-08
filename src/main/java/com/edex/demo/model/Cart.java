@@ -27,3 +27,7 @@ public class Cart {
     private Set<Product> products;
 
 }
+/*
+The cart is dependent of Products[product foreign key]
+
+ */

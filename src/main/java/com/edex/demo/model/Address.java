@@ -19,8 +19,8 @@ public class Address {
     private String state;
     private String country;
     private String pincode;
-    @OneToOne(mappedBy = "address")
-    private User user;
+    // @OneToOne(mappedBy = "address")
+    // private User user;
 
     public Address(){}
     public Address(int id, String plotNo, String street, String landmark, String city, String state, String country,
@@ -82,12 +82,12 @@ public class Address {
     public void setPincode(String pincode) {
         this.pincode = pincode;
     }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
+    // public User getUser() {
+    //     return user;
+    // }
+    // public void setUser(User user) {
+    //     this.user = user;
+    // }
 
     
 }

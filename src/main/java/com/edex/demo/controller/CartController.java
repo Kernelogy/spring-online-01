@@ -26,12 +26,16 @@ public class CartController {
 
     @PostMapping("/insert")
     public ResponseEntity<?> insert(@RequestBody Cart cart){
+
         Set<Product> products = new HashSet<Product>();
+        //Step 1: Save the products
         for(Product p : cart.getProducts()){
             Product ele = productRepo.save(p);
             products.add(ele);
         }
+        //Step 2 : Set the save products to the cart
         cart.setProducts(products);
+        //Step 3 : Save the Car
         Cart entity = cartRepo.save(cart);
        
         return ResponseEntity.ok().body(entity);
