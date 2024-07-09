@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edex.demo.dto.request.UserRequestDto;
+import com.edex.demo.dto.response.UserCreationResponse;
 import com.edex.demo.dto.response.UserResponseDto;
 import com.edex.demo.model.Product;
 import com.edex.demo.model.User;
@@ -32,10 +33,21 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping("/insert")
-    public ResponseEntity<User> insert(@RequestBody User user){
+    public ResponseEntity<?> insert(@RequestBody User user){
         System.out.println("Controller working....");
-        User entity = userRepo.save(user);    
-        return ResponseEntity.ok().body(entity);
+        User entity = userRepo.save(user); 
+        if(entity != null){
+            UserCreationResponse dto = new UserCreationResponse(
+                true, "Account Created Successfully"
+            );
+            return ResponseEntity.ok().body(dto);
+        }else{
+            UserCreationResponse dto = new UserCreationResponse(
+                false, "Account Creation Failed"
+            );
+            return ResponseEntity.ok().body(dto);
+        }
+
     }
     @PostMapping("/insertWithAddress")
     public ResponseEntity<User> insertWithAddress(@RequestBody User user){
